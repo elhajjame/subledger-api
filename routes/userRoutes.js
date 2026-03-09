@@ -1,0 +1,12 @@
+import { Router } from "express";
+import { signup } from "../controllers/userController.js";
+
+const router = Router();
+router
+  .route('/signup')
+  .post(signup)
+router
+  .route('/')
+  .post(createUser);
+
+export default router
