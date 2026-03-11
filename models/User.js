@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import validator from 'validator';
+import bcrypt, { hash } from "bcryptjs";
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -27,6 +28,16 @@ const userSchema = new mongoose.Schema({
     require: [true, 'pleas confirm your password']
   }
 });
+
+userSchema.pre('save', async function (next) {
+  // only run if password was modified
+  if (!this.isModified('password')) return next()
+  // hash the pass with the cost of 12
+  this.password = await bcrypt.hash(this.password, 12);
+
+  this.passwordConfirm = undefined;
+});
+
 
 const User = mongoose.model('User', userSchema);
 export { User }

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { signup } from "../controllers/userController.js";
+import { signup } from "../controllers/authController.js";
 
 const router = Router();
 router
@@ -7,6 +7,6 @@ router
   .post(signup)
 router
   .route('/')
-  .post(createUser);
+// .post(createUser);
 
 export default router
