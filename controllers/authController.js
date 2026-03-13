@@ -104,6 +104,7 @@ const protect = async (req, res, next) => {
       message: 'the user belonging to token does no longer exist'
     })
   }
+  req.user = freshUser;
   next()
 }
 export { signup, login, protect }

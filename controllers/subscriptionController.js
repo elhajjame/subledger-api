@@ -22,6 +22,54 @@ const createSubscription = async (req, res) => {
       message: err.message
     })
   }
-}
+};
 
-export { createSubscription };
+const getAllSubscriptions = async (req, res) => {
+  try {
+    const subscriptions = await Subscription.find({ userId: req.user._id });
+
+    res.status(200).json({
+      status: 'success',
+      results: subscriptions.length,
+      data: {
+        subscriptions
+      }
+    });
+
+  } catch (err) {
+    res.status(500).json({
+      status: 'fail',
+      message: err.message
+    });
+  }
+};
+
+const getSubscription = async (req, res) => {
+  try {
+    const subscription = await Subscription.findOne({
+      _id: req.params.id,
+      userId: req.user.id
+    });
+
+    if (!subscription) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Subscription not found'
+      });
+    }
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        subscription
+      }
+    });
+
+  } catch (err) {
+    res.status(500).json({
+      status: 'fail',
+      message: err.message
+    });
+  }
+};
+export { createSubscription, getAllSubscriptions, getSubscription };
