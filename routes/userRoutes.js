@@ -9,8 +9,5 @@ router
   .post('/signup', signup)
   .post('/login', login);
 
-router
-  .route('/')
-// .post(createUser);
 
 export default router
