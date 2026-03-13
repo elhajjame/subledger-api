@@ -1,10 +1,14 @@
 import { Router } from "express";
-import { signup } from "../controllers/authController.js";
+import { login, signup } from "../controllers/authController.js";
 
 const router = Router();
+// router
+//   .route('/signup').post(signup)
+//   .route('/login').post(login)
 router
-  .route('/signup')
-  .post(signup)
+  .post('/signup', signup)
+  .post('/login', login);
+
 router
   .route('/')
 // .post(createUser);
