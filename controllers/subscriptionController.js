@@ -72,4 +72,46 @@ const getSubscription = async (req, res) => {
     });
   }
 };
-export { createSubscription, getAllSubscriptions, getSubscription };
+
+const updateSubscription = async (req, res) => {
+  try {
+    const subscription = await Subscription.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true
+    });
+    if (!subscription) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'the subscription dose not exist'
+      });
+    }
+    res.status(200).json({
+      status: 'success',
+      data: {
+        subscription
+      }
+    })
+  } catch (error) {
+    res.status(400).json({
+      status: 'fail',
+      message: 'can not update subscription information',
+      errorMessage: error.message
+    })
+  }
+}
+
+const deleteSubscription = async (req, res) => {
+  try {
+    const subscription = await Subscription.findByIdAndDelete(req.params.id);
+    res.status(200).json({
+      status: 'success',
+      message: 'the subscription has been deleted successfully',
+    });
+  } catch (err) {
+    res.status(204).json({
+      status: 'success',
+      data: null
+    });
+  };
+}
+export { createSubscription, getAllSubscriptions, getSubscription, updateSubscription, deleteSubscription };
