@@ -15,6 +15,7 @@ const signup = async (req, res) => {
     const newUser = await User.create({
       name: req.body.name,
       email: req.body.email,
+      role: req.body.role,
       password: req.body.password,
       passwordConfirm: req.body.passwordConfirm
     });
@@ -37,7 +38,6 @@ const signup = async (req, res) => {
     })
   }
 }
-
 
 const login = async (req, res, next) => {
   try {
@@ -105,6 +105,7 @@ const protect = async (req, res, next) => {
     })
   }
   req.user = freshUser;
+  console.log(req.user);
   next()
 }
 export { signup, login, protect }
