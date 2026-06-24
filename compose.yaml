@@ -3,21 +3,20 @@ services:
     build:
       context: .
     environment:
-      NODE_ENV: production
       CONNECT_DB: ${CONNECT_DB}
       JWT_SECRET: ${JWT_SECRET}
       PORT: ${PORT}
+      JWT_EXPIRED_IN: ${JWT_EXPIRED_IN}
     ports:
-      - "5000:5000"
+      - "8000:8000"
     volumes:
       - .:/app
-      - /app/node_modules
-    command: npm run dev
+    command: npm start
     depends_on:
       - mongo
 
   mongo:
-    image: mongo:7
+    image: mongo:7.0
     ports:
       - "27017:27017"
     volumes:
