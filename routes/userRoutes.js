@@ -5,13 +5,7 @@ import { restrictTo } from "../middlewares/roleMiddleware.js";
 import { getAllUsers } from "../controllers/userController.js";
 
 const router = Router();
-// router
-//   .route('/signup').post(signup)
-//   .route('/login').post(login)
-router
-  .post('/signup', signup)
-  .post('/login', login);
-router
-  .get('/', protect, restrictTo('admin'), getAllUsers)
+router.post("/signup", signup).post("/login", login);
+router.get("/", protect, restrictTo("admin"), getAllUsers);
 
-export default router
+export default router;
