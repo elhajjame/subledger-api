@@ -24,7 +24,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node server.js",
-    "test": "jest --coverage"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

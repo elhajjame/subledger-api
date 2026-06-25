@@ -1,23 +1,22 @@
-const mongoose = require("mongoose");
-const { MongoMemoryServer } = require("mongodb-memory-server");
+// import mongoose from "mongoose";
+// import dotenv from "dotenv";
+// dotenv.config();
+// beforeAll(async () => {
+//   await mongoose.connect("mongodb://localhost:27017/subledger");
+// });
 
-let mongoServer;
+// afterAll(async () => {
+//   await mongoose.connection.close();
+// });
+import dotenv from "dotenv";
+dotenv.config({ path: "./config.env" });
+
+import mongoose from "mongoose";
 
 beforeAll(async () => {
-  mongoServer = await MongoMemoryServer.create();
-  await mongoose.connect(mongoServer.getUri());
-});
-
-afterEach(async () => {
-  const collections = mongoose.connection.collections;
-
-  for (const key in collections) {
-    await collections[key].deleteMany({});
-  }
+  await mongoose.connect("mongodb://localhost:27017/subledger");
 });
 
 afterAll(async () => {
-  await mongoose.connection.dropDatabase();
-  await mongoose.Collection.close();
-  await mongoServer.stop();
+  await mongoose.connection.close();
 });
