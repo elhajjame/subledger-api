@@ -1,6 +1,4 @@
 import supertest from "supertest";
-// import authController from "../../controllers/authController";
-import { request, response } from "express";
 import app from "../../app";
 
 describe("POST api/users/login", () => {
