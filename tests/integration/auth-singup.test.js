@@ -1,3 +1,46 @@
+import request from "supertest";
+import { expect } from "chai";
+import app from "../../app.js";
+
+describe("POST /api/users/signup", () => {
+  describe("given valid signup information", () => {
+    it("should respond with a 202 status code", async () => {
+      const timestamp = Date.now();
+
+      const res = await request(app)
+        .post("/api/users/signup")
+        .send({
+          name: `mehdi-${timestamp}`,
+          email: `mehdi-${timestamp}@gmail.com`,
+          role: "user",
+          password: `${timestamp}`,
+          passwordConfirm: `${timestamp}`,
+        });
+
+      expect(res.status).to.equal(202);
+      expect(res.headers["content-type"]).to.match(/application\/json/);
+    });
+  });
+
+  describe("when the given information is incorrect", () => {
+    it("should respond with a 404 status code", async () => {
+      const bodyData = [
+        { name: "name" },
+        { email: "test@email.com" },
+        { role: "user" },
+        { password: "password1234" },
+        { passwordConfirm: "password1234" },
+      ];
+
+      for (const body of bodyData) {
+        const res = await request(app).post("/api/users/signup").send(body);
+
+        expect(res.status).to.equal(404);
+      }
+    });
+  });
+});
+
 // import supertest from "supertest";
 // // import authController from "../../controllers/authController";
 // import { request, response } from "express";
