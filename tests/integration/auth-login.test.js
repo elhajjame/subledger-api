@@ -1,81 +1,55 @@
-
-import request from "supertest";
-import { expect } from "chai";
-import app from "../../app.js";
+import supertest from "supertest";
+import app from "../../app";
 
 describe("POST /api/users/login", () => {
   describe("when given valid data", () => {
-    it("should respond with a 200 status code", async () => {
-      const res = await request(app).post("/api/users/login").send({
-        email: "test@example.com",
+    test("responds with a 200 status code", async () => {
+      const fakeUserData = {
+        name: `name-${Date.now()}`,
+        email: `name-${Date.now()}@gmail.com`,
         password: "password123",
-      });
+        passwordConfirm: "password123",
+        role: "user",
+      };
 
-      expect(res.status).to.equal(200);
-      expect(res.headers["content-type"]).to.match(/application\/json/);
+      await supertest(app)
+        .post("/api/users/signup")
+        .send(fakeUserData);
+
+      // Login with the created user
+      const res = await supertest(app)
+        .post("/api/users/login")
+        .send({
+          email: fakeUserData.email,
+          password: fakeUserData.password,
+        });
+
+      expect(res.statusCode).toBe(200);
+      expect(res.headers["content-type"]).toMatch(/application\/json/);
     });
   });
 
   describe("when the email is missing", () => {
-    it("should respond with a 404 status code", async () => {
-      const res = await request(app).post("/api/users/login").send({
-        password: "password123",
-      });
-      expect(res.status).to.equal(404);
+    test("responds with a 404 status code", async () => {
+      const res = await supertest(app)
+        .post("/api/users/login")
+        .send({
+          password: "password123",
+        });
+
+      expect(res.statusCode).toBe(404);
     });
   });
 
   describe("when the password is missing", () => {
-    it("should respond with a 404 status code", async () => {
-      const res = await request(app).post("/api/users/login").send({
-        email: "test@example.com",
-      });
+    test("responds with a 404 status code", async () => {
+      const res = await supertest(app)
+        .post("/api/users/login")
+        .send({
+          email: "test@example.com",
+        });
 
-      expect(res.status).to.equal(404);
+      expect(res.statusCode).toBe(404);
     });
   });
 });
-
-
-
-
-
-
-
-
-
-
-
-// import supertest from "supertest";
-// import app from "../../app";
-
-// describe("POST api/users/login", () => {
-//   describe("when given valid data", () => {
-//     test("respond with a 200 status code", async () => {
-//       const res = await supertest(app).post("/api/users/login").send({
-//         email: "test@example.com",
-//         password: "password123",
-//       });
-//       expect(res.statusCode).toBe(200);
-//       expect(res.headers["content-type"]).toMatch(/application\/json/);
-//     });
-//   });
-
-//   describe("when the email is messing", () => {
-//     test("response with a 404 status code", async () => {
-//       const res = await supertest(app).post("/api/users/login").send({
-//         password: "password123",
-//       });
-//       expect(res.statusCode).toBe(404);
-//     });
-//   });
-
-//   describe("when the password missing", () => {
-//     test("response with a status code 404", async () => {
-//       const res = await supertest(app).post("/api/users/login").send({
-//         email: "test@example.com",
-//       });
-//       expect(res.statusCode).toBe(404);
-//     });
-//   });
-// });

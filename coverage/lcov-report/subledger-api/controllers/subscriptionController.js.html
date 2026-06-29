@@ -179,7 +179,16 @@
 <a name='L114'></a><a href='#L114'>114</a>
 <a name='L115'></a><a href='#L115'>115</a>
 <a name='L116'></a><a href='#L116'>116</a>
-<a name='L117'></a><a href='#L117'>117</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">5x</span>
@@ -217,7 +226,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -246,7 +254,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -260,6 +267,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -290,6 +301,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -304,20 +322,20 @@ const createSubscription = async (req, res) =&gt; {
       price: req.body.price,
       billingCycle: req.body.billingCycle,
       createdAt: req.body.createdAt,
-      userId: req.body.userId
+      userId: req.user._id,
     });
     res.status(202).json({
-      status: 'success',
-      message: 'the subscription has been created successfully',
+      status: "success",
+      message: "the subscription has been created successfully",
       data: {
-        NewSubscription
-      }
-    })
+        NewSubscription,
+      },
+    });
   } catch (err) {
     res.status(404).json({
-      status: 'fail',
-      message: err.message
-    })
+      status: "fail",
+      message: err.message,
+    });
   }
 };
 &nbsp;
@@ -326,17 +344,16 @@ const getAllSubscriptions = <span class="fstat-no" title="function not covered" 
     const subscriptions = <span class="cstat-no" title="statement not covered" >await Subscription.find({ userId: req.user._id });</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    res.status(200).json({</span>
-      status: 'success',
+      status: "success",
       results: subscriptions.length,
       data: {
-        subscriptions
-      }
+        subscriptions,
+      },
     });
-&nbsp;
   } catch (err) {
 <span class="cstat-no" title="statement not covered" >    res.status(500).json({</span>
-      status: 'fail',
-      message: err.message
+      status: "fail",
+      message: err.message,
     });
   }
 };
@@ -345,80 +362,90 @@ const getSubscription = <span class="fstat-no" title="function not covered" >as<
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const subscription = <span class="cstat-no" title="statement not covered" >await Subscription.findOne({</span>
       _id: req.params.id,
-      userId: req.user.id
+      userId: req.user.id,
     });
 <span class="cstat-no" title="statement not covered" >    console.log(subscription);</span>
 <span class="cstat-no" title="statement not covered" >    if (!subscription) {</span>
 <span class="cstat-no" title="statement not covered" >      return res.status(404).json({</span>
-        status: 'fail',
-        message: 'Subscription not found'
+        status: "fail",
+        message: "Subscription not found",
       });
     }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    res.status(200).json({</span>
-      status: 'success',
+      status: "success",
       data: {
-        subscription
-      }
+        subscription,
+      },
     });
-&nbsp;
   } catch (err) {
 <span class="cstat-no" title="statement not covered" >    res.status(500).json({</span>
-      status: 'fail',
-      message: err.message
+      status: "fail",
+      message: err.message,
     });
   }
 };
 &nbsp;
 const updateSubscription = <span class="fstat-no" title="function not covered" >as</span>ync (req, res) =&gt; {
 <span class="cstat-no" title="statement not covered" >  try {</span>
-    const subscription = <span class="cstat-no" title="statement not covered" >await Subscription.findByIdAndUpdate(req.params.id, req.body, {</span>
-      new: true,
-      runValidators: true
-    });
+    const subscription = <span class="cstat-no" title="statement not covered" >await Subscription.findByIdAndUpdate(</span>
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
 <span class="cstat-no" title="statement not covered" >    if (!subscription) {</span>
 <span class="cstat-no" title="statement not covered" >      return res.status(404).json({</span>
-        status: 'fail',
-        message: 'the subscription dose not exist'
+        status: "fail",
+        message: "the subscription dose not exist",
       });
     }
 <span class="cstat-no" title="statement not covered" >    res.status(200).json({</span>
-      status: 'success',
+      status: "success",
       data: {
-        subscription
-      }
-    })
+        subscription,
+      },
+    });
   } catch (error) {
 <span class="cstat-no" title="statement not covered" >    res.status(400).json({</span>
-      status: 'fail',
-      message: 'can not update subscription information',
-      errorMessage: error.message
-    })
+      status: "fail",
+      message: "can not update subscription information",
+      errorMessage: error.message,
+    });
   }
-}
+};
 &nbsp;
 const deleteSubscription = <span class="fstat-no" title="function not covered" >as</span>ync (req, res) =&gt; {
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const subscription = <span class="cstat-no" title="statement not covered" >await Subscription.findByIdAndDelete(req.params.id);</span>
 <span class="cstat-no" title="statement not covered" >    res.status(200).json({</span>
-      status: 'success',
-      message: 'the subscription has been deleted successfully',
+      status: "success",
+      message: "the subscription has been deleted successfully",
     });
   } catch (err) {
 <span class="cstat-no" title="statement not covered" >    res.status(204).json({</span>
-      status: 'success',
-      data: null
+      status: "success",
+      data: null,
     });
-  };
-}
-export { createSubscription, getAllSubscriptions, getSubscription, updateSubscription, deleteSubscription };</pre></td></tr></table></pre>
+  }
+};
+export {
+  createSubscription,
+  getAllSubscriptions,
+  getSubscription,
+  updateSubscription,
+  deleteSubscription,
+};
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-06-26T08:59:46.938Z
+                at 2026-06-29T09:33:45.927Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
